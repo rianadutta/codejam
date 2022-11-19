@@ -3,4 +3,6 @@ from .models import Courses
 
 class ProgramForm(ModelForm):
     class Meta:
-        model = Coursesfields = '__all__'
+        model = Courses
+        fields = '__all__'
+        
