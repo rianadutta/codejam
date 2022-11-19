@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+class Courses(models.Model):
+    name = models.CharField(max_length=10)
+    #pre-reqs = 
+    #co-reqs =
+    #restrictions = 
