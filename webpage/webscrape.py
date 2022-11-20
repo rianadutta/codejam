@@ -39,10 +39,10 @@ def webscrape(course):
             pattern = "courses/.*?/a>"
             prereqs = re.findall(pattern, title[j])
             for i in prereqs:
-                print(i)
+                #print(i)
                 i = i.split('>')[1] 
                 i = i.split('<')[0]
-                print(i)
+                #print(i)
                 ors += str(i)
                 ors += ','
             listofprereqs.append(ors[:-1])
@@ -78,7 +78,7 @@ def programscrape(program):
     match_results = re.search(pattern, html)
     if match_results is not None:
         title = match_results.group()
-    print(title)
+    #print(title)
 
 #programscrape(math_comp)
 
@@ -93,7 +93,7 @@ def prog(program):
     title = div[0].find(text="Required Courses").parent
     a = title.nextSibling
     for i in range(5):
-        print(type(a))
+        #print(type(a))
         a = a.nextSibling
         
     b = a.parent.find('li')
