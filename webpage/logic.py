@@ -1,94 +1,90 @@
-import requests
-fomr .models import Program, Courses
-# getting the request 
-r = requests.get(url = URL, params = PARAMS)
+import os
 
-#formatting info from the request
-program = 'Computer Science'
-coursestaken = ['COMP 202']
-winterfall = True
-semesters = 8
-wanted = ['MATH 340', 'COMP 360']
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web_project.settings")
+
+import django
+django.setup()
+
+# your imports, e.g. Django models
+from hello.models import Program, Courses
 
 
-# search from program within sql database (program table)
-result = sqlsearch(program)
-#(result has fields result.name, result.required, result.complementary)
+# from models import Program, Courses
+from webscrape import webscrape
 
-requiredcoursesleft = []
-for course in result.required:
-    if course not in coursestaken:
-        requiredcoursesleft.append(course)
+def upper(thing):
+    return thing.upper()
 
-complementariesleft = []
-
-for section in complementariesleft:
-    p = section[0]
-    h = section[1:]
-    for n in h:
-        if n in coursestaken:
-            p = p-1
-        h.remove(n)
-    if (p<0):
-        p =0
-    complementariesleft.append(p)
-    for k in h:
-        complementariesleft.append(k)
-
-#given the name of a course (string), searches database and returns the Course class with
-#all relevant attributes
-def retrieve(course):
-    out = sqlsearch database(course)
-    if(out == -1):
-        webscrape.py(course)
-        out = sqlsearch database(course)
-    return out
-
-#these lists modify the original lists but instead of having a string of course name, it 
-#has a Course (class) with all prereq etc attributes
-
-infocoursestaken = []
-inforequiredcoursesleft = []
-infocomplementariesleft = []
-
-def validate(course):
-    #check if they can take course based on prereqs, coreqs, restrictions
-    return True
-def update(course, semester):
-    #updates course lists assuming 
-for course in coursestaken: 
-    infocoursestaken.append(retrieve(course))
-
-for course in requiredcoursesleft:
-    inforequiredcoursesleft.append(retrieve(course))
-
-for clump in complementariesleft:
-    h = []
-    infocomplementariesleft.append(clump[0])
-    for course in clump[1:]:
-        infocomplementariesleft.append(retrieve(course))
-
-#check what required courses they are able to take
-listofsemesters = {}
+def course_list_parser(courses):
+    list_courses = courses.split(",")
+    print(list_courses)
 
 
-for n in range(semesters):
-    listofsemesters[str(n)] = []
-avecoursespersem = round(ints + len(required) / semesters)
-while (requiredcoursesleft):
-    for i in listofsemesters:
-        for p in requiredcoursesleft:
-            if(validate(p) and listofsemesters[i] <= avecoursespersem):
-                listofsemesters[i].append(p)
-                requiredcoursesleft.remove(p)
+def retrieve_course(course):
+    try:
+        c = Courses.objects.get(name=course)
+        return c
+    except Courses.DoesNotExist:
+        return -1
 
+def validate(course, courses_taken):
+    return False
+
+def create_all_entries(list):
+    """ Takes a list and web scrapes course entries for each list element
+    if it did not already exist """
+    for c in list:
+        c2 = retrieve_course(c)
+        if c2 == -1:
+            webscrape(c)
+            c2 = retrieve_course(c)
+        c = c2
+    return list
+
+def generate_schedule(program, taken_courses, semesters):
+    p = Program.objects.filter(name=program)
+    req = p.required_courses # 1-d array
+    comp = p.complementary_courses # 2-d array
+
+    req_left = []
+    complementariesleft = []
+
+    # creates list of required courses that need to be taken
+    for i in req:
+        if i not in taken_courses:
+            req_left.append(i)
+    
+    # creates 2-d array of complementary courses which need to be taken
+    for section in comp:
+        temp = []
+        p = section[0]
+        h = section[1:]
+        for n in h:
+            if n in taken_courses:
+                p = p-1
+            else:
+                temp.append(n)
+        if (p<0):
+            p =0
+        temp.insert(0, p)
+        complementariesleft.append(temp)
+    
+    # do we need to do this for any other lists?
+    create_all_entries(taken_courses)
+
+
+    list_semesters = []
+    for n in range(semesters):
+        list_semesters[n] = []
+    
+    avecoursespersem = round(len(req) / semesters)
+
+    while (req_left != []):
+        for i in list_semesters:
+            for j in req_left:
+                if (validate(j) and len(list_semesters[i]) <= avecoursespersem):
+                    list_semesters[i].append(j)
+                    req_left.remove(j)
         
 
-#filling in complementaries
-#go through requests
-for n in requests:
-    if n meets requirements, add it to the first list in list of semesters that has room
-
-return the list of semesters as a post request
-
-
+course_list_parser("COMP 202, MATH 310")
