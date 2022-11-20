@@ -1,6 +1,6 @@
 from urllib.request import urlopen
-import requests
-from bs4 import BeautifulSoup
+#import requests
+#from bs4 import BeautifulSoup
 import re
 
 # note -- ultimately what this program needs to do is to create a database entry
