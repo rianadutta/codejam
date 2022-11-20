@@ -145,7 +145,7 @@ def generate_output(program, courses_taken):
         table.append([])
     return table
 
-generate_output("math_comp_hon", "MATH 133, MATH 141")
+#generate_output("math_comp_hon", "MATH 133, MATH 141")
 
 
 def toy():
