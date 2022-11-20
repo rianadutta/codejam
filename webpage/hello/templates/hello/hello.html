@@ -9,12 +9,16 @@
     </head>
     <body>
         <span class="message">Hello!</span> Welcome to the Bread Degree Planner.
+        
         <h2>input</h2>
-        <table>
-            {{ form }}
-        </table>
-        {% csrf_token %}
-        <button type="submit">Submit</button>
+        <form method = 'post'>
+            <table>
+                {{ form }}
+            </table>
+            <h1> {{ program }} </h1>
+            {% csrf_token %}
+            <button type="submit">Submit</button>
+        </form>
     </body>
 </html>
 
