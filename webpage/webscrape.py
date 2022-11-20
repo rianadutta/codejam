@@ -29,42 +29,6 @@ def webscrape(course):
     match_results = re.search(pattern, html)
     if match_results is not None:
         title = match_results.group()
-        
-        pattern1 = "courses/.*?/a>"
-        prereqs = re.findall(pattern1, title)
-        for i in prereqs:
-            i = i.split('>')[1] 
-            i = i.split('<')[0]
-            listofprereqs.append(i)
-        print("Prereqs: " )
-        print(listofprereqs)
-    pattern2 = '<li><p>Corequisit.*?/p>'
-    match_results1 = re.search(pattern2,html)
-    if match_results1 is not None:
-        title = match_results1.group()
-        pattern1 = "courses/.*?/a>"
-        coreqs = re.findall(pattern1, title)
-        for i in coreqs:
-            i = i.split('>')[1] 
-            i = i.split('<')[0]
-            listofcoreqs.append(i)
-        print("Coreqs: " )
-        print(listofcoreqs)
-    return listofprereqs #, listofcoreqs
-
-def webscrape1(course):
-    url = generate_url(course)
-
-<<<<<<< HEAD
-    listofprereqs = []
-    listofcoreqs = []
-    page = urlopen(url)
-    html_bytes = page.read()
-    html = html_bytes.decode("utf-8")
-    pattern = '<li><p>Prerequisite.*?/p>'
-    match_results = re.search(pattern, html)
-    if match_results is not None:
-        title = match_results.group()
         length = len(title)
         title = title.split(',')
         if length == len(title[0]):
@@ -96,10 +60,8 @@ def webscrape1(course):
         print(listofcoreqs)
     return listofprereqs, listofcoreqs
 
-webscrape1("comp 252")
+#webscrape("comp 252")
 
-=======
->>>>>>> 75ac7e486322917c5d2910a04e6d3efb704764a7
 def programscrape(program):
     page = urlopen(program)
     html_bytes = page.read()
