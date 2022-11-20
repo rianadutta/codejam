@@ -50,10 +50,8 @@ def webscrape(course):
             listofcoreqs.append(i)
         print("Coreqs: " )
         print(listofcoreqs)
-    return listofprereqs, listofcoreqs
+    return listofprereqs #, listofcoreqs
 
-
-webscrape("comp 273")
 
 def programscrape(program):
     page = urlopen(program)

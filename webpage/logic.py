@@ -7,10 +7,9 @@ django.setup()
 
 # your imports, e.g. Django models
 from hello.models import Program, Courses
-
-
-# from models import Program, Courses
 from webscrape import webscrape
+
+from treelib import Node, Tree
 
 def upper(thing):
     return thing.upper()
@@ -40,6 +39,48 @@ def create_all_entries(list):
             c2 = retrieve_course(c)
         c = c2
     return list
+
+def get_prereqs(list): # this is a placeholder function
+    for i in range(len(list)):
+        co = webscrape(list[i])
+        list[i] = (list[i], co)
+    return list
+
+def create_trees(tree_list, req):
+    for i in tree_list:
+        print(i.root)
+        for (a, b) in req:
+            if i.root 
+
+
+def generate_output(program, courses_taken):
+    # p = Program.objects.filter(name=program)
+    # req = p.required_courses # 1-d array
+    # comp = p.complementary_courses # 2-d array
+
+    req = ["MATH 222", "MATH 235", "MATH 242", "MATH 255"]
+    req_left = []
+
+    for i in req:
+        if i not in courses_taken:
+            req_left.append(i)
+
+    # create_all_entries(courses_taken)
+    # create_all_entries(req_left)
+
+    req = get_prereqs(req)
+    
+    tree_list = []
+    for i in range(len(courses_taken)):
+        tree_list.append(Tree())
+        tree_list[i].create_node(courses_taken[i], courses_taken[i])
+
+    create_trees(tree_list, req)
+
+
+generate_output("a", ["MATH 141", "MATH 133"])
+
+
 
 def generate_schedule(program, taken_courses, semesters):
     p = Program.objects.filter(name=program)
@@ -86,5 +127,3 @@ def generate_schedule(program, taken_courses, semesters):
                     list_semesters[i].append(j)
                     req_left.remove(j)
         
-
-course_list_parser("COMP 202, MATH 310")
