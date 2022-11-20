@@ -1,6 +1,45 @@
-{% extends "hello/layout.html" %}
-<h1> About </h1>
-
-{% endblock %}
-<p>About page for the Visual Studio Code Django tutorial.</p>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Column Layout</title>
+<style type="text/css">
+.column {
+  width: 14.3%;
+  border: 0px solid gray;
+  float: left;
+}
+</style>
+</head>
+<body>
+{% if reset == False %}
+<div id="header"> &nbsp Here are the courses required for your degree. The courses are divided into columns, where the prerequisite of each course is located in the column directly to the left. </div>
+<br>
+<br>
+{% endif %}
+<div class="column one">
+&nbsp
+</div>
+<div class="column two">
+{{ col1 }}
+</div>
+<div class="column three">
+{{ col2 }}
+</div>
+<div class="column four">
+{{ col3 }}
+</div>
+<div class="column five">
+{{ col4 }}
+</div>
+<div class="column six">
+{{ col5 }}
+</div>
+<div class="column seven">
+&nbsp
+</div>
+</div>
+{% if reset == False %}
+<button id="btn" style="display:block;" onclick="reset = False">Reset</button>
+{% endif %}
+</body>
+</html>

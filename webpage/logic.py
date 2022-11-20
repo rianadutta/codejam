@@ -88,3 +88,10 @@ def generate_schedule(program, taken_courses, semesters):
         
 
 course_list_parser("COMP 202, MATH 310")
+
+col1 = ""
+col2 = ""
+col3 = ""
+col4 = ""
+col5 = ""
+col6 = ""
