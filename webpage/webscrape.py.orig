@@ -22,12 +22,47 @@ def webscrape(course):
 
     listofprereqs = []
     listofcoreqs = []
-    restrictions = []
     page = urlopen(url)
     html_bytes = page.read()
     html = html_bytes.decode("utf-8")
-    pattern1 = '<li><p>Prerequisite.*?/p>'
-    match_results = re.search(pattern1, html)
+    pattern = '<li><p>Prerequisite.*?/p>'
+    match_results = re.search(pattern, html)
+    if match_results is not None:
+        title = match_results.group()
+        
+        pattern1 = "courses/.*?/a>"
+        prereqs = re.findall(pattern1, title)
+        for i in prereqs:
+            i = i.split('>')[1] 
+            i = i.split('<')[0]
+            listofprereqs.append(i)
+        print("Prereqs: " )
+        print(listofprereqs)
+    pattern2 = '<li><p>Corequisit.*?/p>'
+    match_results1 = re.search(pattern2,html)
+    if match_results1 is not None:
+        title = match_results1.group()
+        pattern1 = "courses/.*?/a>"
+        coreqs = re.findall(pattern1, title)
+        for i in coreqs:
+            i = i.split('>')[1] 
+            i = i.split('<')[0]
+            listofcoreqs.append(i)
+        print("Coreqs: " )
+        print(listofcoreqs)
+    return listofprereqs #, listofcoreqs
+
+def webscrape1(course):
+    url = generate_url(course)
+
+<<<<<<< HEAD
+    listofprereqs = []
+    listofcoreqs = []
+    page = urlopen(url)
+    html_bytes = page.read()
+    html = html_bytes.decode("utf-8")
+    pattern = '<li><p>Prerequisite.*?/p>'
+    match_results = re.search(pattern, html)
     if match_results is not None:
         title = match_results.group()
         length = len(title)
@@ -35,41 +70,36 @@ def webscrape(course):
         if length == len(title[0]):
             title = title[0].split("and")
         for j in range(len(title)):
-            ors = ""
-            pattern = "courses/.*?/a>"
-            prereqs = re.findall(pattern, title[j])
+            list = []
+            pattern1 = "courses/.*?/a>"
+            prereqs = re.findall(pattern1, title[j])
             for i in prereqs:
                 print(i)
                 i = i.split('>')[1] 
                 i = i.split('<')[0]
                 print(i)
-                ors += str(i)
-                ors += ','
-            listofprereqs.append(ors[:-1])
+                list.append(i)
+            listofprereqs.append(list)
+        print("Prereqs: " )
+        print(listofprereqs)
     pattern2 = '<li><p>Corequisit.*?/p>'
     match_results1 = re.search(pattern2,html)
     if match_results1 is not None:
         title = match_results1.group()
-        pattern = "courses/.*?/a>"
-        coreqs = re.findall(pattern, title)
+        pattern1 = "courses/.*?/a>"
+        coreqs = re.findall(pattern1, title)
         for i in coreqs:
             i = i.split('>')[1] 
             i = i.split('<')[0]
             listofcoreqs.append(i)
-    pattern3 = '<li><p>Restriction.*?/p>'
-    match_results2 = re.search(pattern3,html)
-    if match_results2 is not None:
-        title = match_results2.group()
-        pattern = "courses/.*?/a>"
-        rest = re.findall(pattern, title)
-        for i in rest:
-            i = i.split('>')[1] 
-            i = i.split('<')[0]
-            restrictions.append(i)
-    return listofprereqs, listofcoreqs, restrictions
+        print("Coreqs: " )
+        print(listofcoreqs)
+    return listofprereqs, listofcoreqs
 
-#webscrape("comp 252")
+webscrape1("comp 252")
 
+=======
+>>>>>>> 75ac7e486322917c5d2910a04e6d3efb704764a7
 def programscrape(program):
     page = urlopen(program)
     html_bytes = page.read()

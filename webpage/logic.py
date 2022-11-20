@@ -10,7 +10,6 @@ from hello.models import Program, Courses
 from webscrape import webscrape
 
 from treelib import Node, Tree
-from tabulate import tabulate
 
 def upper(thing):
     return thing.upper()
@@ -30,8 +29,8 @@ def retrieve_course(course):
         c.save()
     return c
 
-c = retrieve_course("COMP 250")
-print(c.name)
+#c = retrieve_course("COMP 250")
+#print(c.name)
 
 def validate(course, courses_taken):
     return False
