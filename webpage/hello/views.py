@@ -33,7 +33,7 @@ def hello(request):
             program = form.data['program']
             semester = form.data['semester']
             courses = form.data['courses'] 
-            col1 = form.data['courses'] 
+            col1 = ["ECSE 200", "ECSE 202", "ECSE 222"]
             col2 = form.data['courses'] 
             col3 = form.data['courses'] 
             col4 = form.data['courses'] 

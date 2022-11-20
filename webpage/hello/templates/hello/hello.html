@@ -85,21 +85,37 @@ p {text-align: center;}
 &nbsp
 </div>
 <div class="column two">
-{{ col1 }}
+{% for i in col1 %}
+  {{ i }}
+  <br>
+{% endfor %}
 </div>
 <div class="column three">
-{{ col2 }}
+{% for i in col2 %}
+  {{ i }}
+  <br>
+{% endfor %}
 </div>
 <div class="column four">
-{{ col3 }}
+{% for i in col3 %}
+  {{ i }}
+  <br>
+{% endfor %}
 </div>
 <div class="column five">
-{{ col4 }}
+{% for i in col4 %}
+  {{ i }}
+  <br>
+{% endfor %}
 </div>
 <div class="column six">
-{{ col5 }}
+{% for i in col5 %}
+  {{ i }}
+  <br>
+{% endfor %}
+<br>
+<br>
 </div>
-
 </div>
 </body>
 </html>

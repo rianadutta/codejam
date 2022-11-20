@@ -1,4 +1,4 @@
-import os
+'''import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web_project.settings")
 
@@ -115,4 +115,4 @@ def generate_output(program, courses_taken):
         table[max_depth].append(i)
         print(max_depth)
     
-    print(table)
+    print(table)'''
