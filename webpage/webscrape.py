@@ -6,6 +6,10 @@ import re
 # note -- ultimately what this program needs to do is to create a database entry
 # of the course that it scraped
 
+# program urls
+math_comp_hon = "https://www.mcgill.ca/mathstat/undergraduate/programs/b-sc/joint-honours-mathematics-and-computer-science-b-sc"
+math_comp = "https://www.mcgill.ca/study/2022-2023/faculties/science/undergraduate/programs/bachelor-science-bsc-major-computer-science"
+
 def generate_url(course):
     endpoint = course.lower()
     endpoint = endpoint.replace(" ", "-")
@@ -48,5 +52,12 @@ def webscrape(course):
         print(listofprereqs)
 
 
-webscrape("comp 273")
+#webscrape("comp 273")
 
+def programscrape(program):
+    page = urlopen(program))
+    html_bytes = page.read()
+    html = html_bytes.decode("utf-8")
+    print(html)
+
+programscrape(math_comp)
