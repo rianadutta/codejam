@@ -20,6 +20,8 @@ def generate_url(course):
 def webscrape(course):
     url = generate_url(course)
 
+    listofprereqs = []
+    listofcoreqs = []
     page = urlopen(url)
     html_bytes = page.read()
     html = html_bytes.decode("utf-8")
@@ -30,7 +32,6 @@ def webscrape(course):
         
         pattern1 = "courses/.*?/a>"
         prereqs = re.findall(pattern1, title)
-        listofprereqs = []
         for i in prereqs:
             i = i.split('>')[1] 
             i = i.split('<')[0]
@@ -42,22 +43,26 @@ def webscrape(course):
     if match_results1 is not None:
         title = match_results1.group()
         pattern1 = "courses/.*?/a>"
-        prereqs = re.findall(pattern1, title)
-        listofprereqs = []
-        for i in prereqs:
+        coreqs = re.findall(pattern1, title)
+        for i in coreqs:
             i = i.split('>')[1] 
             i = i.split('<')[0]
-            listofprereqs.append(i)
+            listofcoreqs.append(i)
         print("Coreqs: " )
-        print(listofprereqs)
+        print(listofcoreqs)
+    return listofprereqs, listofcoreqs
 
 
-#webscrape("comp 273")
+webscrape("comp 273")
 
 def programscrape(program):
-    page = urlopen(program))
+    page = urlopen(program)
     html_bytes = page.read()
     html = html_bytes.decode("utf-8")
+    pattern = '>Required Courses'
+    match_results = re.search(pattern, html)
+    if match_results is not None:
+        title = match_results.group()
     print(html)
 
-programscrape(math_comp)
+#programscrape(math_comp)
