@@ -7,17 +7,18 @@ from .form import UserForm
 def hello(request):
     #submitted = False
     program = "program"
+    semester = " "
+    courses = " "
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
-            #form.save()
             program = form.data['program']
-            
-            #HttpResponseRedirect('/form?submitted=True')
+            semester = form.data['semester']
+            courses = form.data['courses']
     else:
         form = UserForm()
         #if 'submitted' in request.GET:
             #submitted = True
-    return render(request, "hello/hello.html", {"form": form, "program": program})
+    return render(request, "hello/hello.html", {"form": form, "program": program, "semester": semester, "courses": courses})
 
 
