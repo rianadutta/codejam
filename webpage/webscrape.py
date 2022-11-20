@@ -35,7 +35,7 @@ def webscrape(course):
         if length == len(title[0]):
             title = title[0].split("and")
         for j in range(len(title)):
-            list = []
+            ors = ""
             pattern = "courses/.*?/a>"
             prereqs = re.findall(pattern, title[j])
             for i in prereqs:
@@ -43,8 +43,9 @@ def webscrape(course):
                 i = i.split('>')[1] 
                 i = i.split('<')[0]
                 print(i)
-                list.append(i)
-            listofprereqs.append(list)
+                ors += str(i)
+                ors += ','
+            listofprereqs.append(ors[:-1])
         print("Prereqs: " )
         print(listofprereqs)
     pattern2 = '<li><p>Corequisit.*?/p>'
