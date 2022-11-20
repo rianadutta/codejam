@@ -50,11 +50,12 @@ def webscrape(course):
             listofcoreqs.append(i)
         print("Coreqs: " )
         print(listofcoreqs)
-    return listofprereqs, listofcoreqs
+    return listofprereqs #, listofcoreqs
 
 def webscrape1(course):
     url = generate_url(course)
 
+<<<<<<< HEAD
     listofprereqs = []
     listofcoreqs = []
     page = urlopen(url)
@@ -97,6 +98,8 @@ def webscrape1(course):
 
 webscrape1("comp 252")
 
+=======
+>>>>>>> 75ac7e486322917c5d2910a04e6d3efb704764a7
 def programscrape(program):
     page = urlopen(program)
     html_bytes = page.read()

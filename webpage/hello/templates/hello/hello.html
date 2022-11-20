@@ -20,24 +20,25 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
 <!-- Navbar -->
 <div class="w3-top">
-  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+  <div class="w3-bar w3-blue w3-card w3-left-align w3-large">
     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
   </div>
 </div>
 
 <!-- Header -->
-<header class="w3-container w3-red w3-center" style="padding:128px 16px">
-  <h1 class="w3-margin w3-jumbo">BREAD</h1>
-  <p class="w3-xlarge">Degree Planner</p>
+<header class="w3-container w3-blue w3-center" style="padding:50px 16px">
+  <h1 class="w3-margin w3-jumbo">BREAD Degree Planner</h1>
+  <!-- <p class="w3-xlarge">Degree Planner</p> -->
 </header>
 
 <!-- First Grid -->
 <div class="w3-row-padding w3-padding-64 w3-container">
   <div class="w3-content">
     <div class="w3-twothird">
-        <h1>Welcome</h1>        
-        <h2>input</h2>
+        <h1>Hello!</h1>
+        <p class="w3-text-grey">Welcome to our degree planner! Select your program, what semester you want to start in and the courses you've already taken (eg. "COMP 250", separated by a comma).
+            When you hit submit, a sample schedule will be produced, taking into account prerequisites and what semester courses are offered in.</p>        
         <form method = 'post'>
             <table>
                 {{ form }}
@@ -47,9 +48,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
             <button type="submit">Submit</button>
         </form>
     </div>
-
     <div class="w3-third w3-center">
-      <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+        <img src="{% static 'logo/logo.png' %}" style="width:350px;height:350px;">
+    <!-- <i class="fa fa-anchor w3-padding-64 w3-text-red"></i> -->
     </div>
   </div>
 </div>

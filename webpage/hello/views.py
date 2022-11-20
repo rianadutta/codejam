@@ -31,5 +31,3 @@ def hello(request):
         #if 'submitted' in request.GET:
             #submitted = True
     return render(request, "hello/hello.html", {"form": form, "program": program, "semester": semester, "courses": courses})
-
-
