@@ -5,24 +5,17 @@ class Courses(models.Model):
     name = models.CharField(max_length=10)
 
     pre_reqs = ArrayField(
-        ArrayField(
-            models.CharField(max_length=10, blank=True),
-            size=8,
-            default=list,
-        ),
-        size=8,
+        models.CharField(max_length=10, blank=True),
         default=list,
     )
 
     co_reqs = ArrayField(
         models.CharField(max_length=10, blank=True),
-        size=8,
         default=list,
     ),
 
     restrictions = ArrayField(
         models.CharField(max_length=10, blank=True),
-        size=8,
         default=list,
     ),
 
@@ -38,17 +31,11 @@ class Program(models.Model):
 
     required_courses = ArrayField(
         models.CharField(max_length=10, blank=True),
-        size=8,
         default=list,
     ),
 
     complementary_courses = ArrayField(
-        ArrayField(
-            models.CharField(max_length=10, blank=True),
-            size=8,
-            default=list,
-        ),
-        size=8,
+        models.CharField(max_length=10, blank=True),
         default=list,
     )
 

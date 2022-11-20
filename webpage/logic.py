@@ -23,19 +23,15 @@ def course_list_parser(courses):
 def retrieve_course(course):
     try:
         c = Courses.objects.get(name=course)
-        return c
     except Courses.DoesNotExist:
-        return -1
-
-def get_course(course):
-    c = retrieve_course(course)
-    if c == -1:
-        p = webscrape(course)
-        c = Courses(name=course, prerequisites=p)
+        p, co = webscrape(course)
+        c = Courses(name=course, pre_reqs=p)
+        #c = Courses(name=course, pre_reqs=p, co_reqs=co)
         c.save()
     return c
 
-# c = get_course("COMP 310")
+c = retrieve_course("COMP 250")
+print(c.name)
 
 def validate(course, courses_taken):
     return False
