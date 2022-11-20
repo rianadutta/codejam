@@ -45,5 +45,3 @@ def hello(request):
             #submitted = True
     return render(request, "hello/hello.html", {"form": form, "program": program, "semester": semester, "courses": courses, 
     "col1": col1, "col2": col2, "col3": col3, "col4": col4, "col5": col5})
-
-

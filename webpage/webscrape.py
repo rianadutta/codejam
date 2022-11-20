@@ -1,6 +1,6 @@
 from urllib.request import urlopen
-# import requests
-# from bs4 import BeautifulSoup
+import requests
+from bs4 import BeautifulSoup
 import re
 
 # note -- ultimately what this program needs to do is to create a database entry
@@ -22,38 +22,58 @@ def webscrape(course):
 
     listofprereqs = []
     listofcoreqs = []
+    restrictions = []
     page = urlopen(url)
     html_bytes = page.read()
     html = html_bytes.decode("utf-8")
-    pattern = '<li><p>Prerequisite.*?/p>'
-    match_results = re.search(pattern, html)
+    pattern1 = '<li><p>Prerequisite.*?/p>'
+    match_results = re.search(pattern1, html)
     if match_results is not None:
         title = match_results.group()
-        
-        pattern1 = "courses/.*?/a>"
-        prereqs = re.findall(pattern1, title)
-        for i in prereqs:
-            i = i.split('>')[1] 
-            i = i.split('<')[0]
-            listofprereqs.append(i)
+        length = len(title)
+        title = title.split(',')
+        if length == len(title[0]):
+            title = title[0].split("and")
+        for j in range(len(title)):
+            list = []
+            pattern = "courses/.*?/a>"
+            prereqs = re.findall(pattern, title[j])
+            for i in prereqs:
+                print(i)
+                i = i.split('>')[1] 
+                i = i.split('<')[0]
+                print(i)
+                list.append(i)
+            listofprereqs.append(list)
         print("Prereqs: " )
         print(listofprereqs)
     pattern2 = '<li><p>Corequisit.*?/p>'
     match_results1 = re.search(pattern2,html)
     if match_results1 is not None:
         title = match_results1.group()
-        pattern1 = "courses/.*?/a>"
-        coreqs = re.findall(pattern1, title)
+        pattern = "courses/.*?/a>"
+        coreqs = re.findall(pattern, title)
         for i in coreqs:
             i = i.split('>')[1] 
             i = i.split('<')[0]
             listofcoreqs.append(i)
         print("Coreqs: " )
         print(listofcoreqs)
-    return listofprereqs, listofcoreqs
+    pattern3 = '<li><p>Restriction.*?/p>'
+    match_results2 = re.search(pattern3,html)
+    if match_results2 is not None:
+        title = match_results2.group()
+        pattern = "courses/.*?/a>"
+        rest = re.findall(pattern, title)
+        for i in rest:
+            i = i.split('>')[1] 
+            i = i.split('<')[0]
+            restrictions.append(i)
+        print("Restrictions: " )
+        print(restrictions)
+    return listofprereqs, listofcoreqs, restrictions
 
-
-webscrape("comp 273")
+webscrape("comp 252")
 
 def programscrape(program):
     page = urlopen(program)
@@ -63,6 +83,26 @@ def programscrape(program):
     match_results = re.search(pattern, html)
     if match_results is not None:
         title = match_results.group()
-    print(html)
+    print(title)
 
 #programscrape(math_comp)
+
+def prog(program):
+    page = requests.get(program)
+    #print(page.content)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    div = soup.find_all('div', id="block-system-main")
+    pattern = re.compile("Required Courses")
+    #print(div[0])
+    #title = div[0].find(text=pattern)
+    title = div[0].find(text="Required Courses").parent
+    a = title.nextSibling
+    for i in range(5):
+        print(type(a))
+        a = a.nextSibling
+        
+    b = a.parent.find('li')
+    #print(a.nextSibling)
+    #print(b.prettify())
+
+#prog(math_comp_hon)
