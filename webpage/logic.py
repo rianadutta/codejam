@@ -24,8 +24,8 @@ def retrieve_course(course):
     try:
         c = Courses.objects.get(name=course)
     except Courses.DoesNotExist:
-        p, co = webscrape(course)
-        c = Courses(name=course, pre_reqs=p)
+        pr, co, re = webscrape(course)
+        c = Courses(name=course, pre_reqs=pr)
         #c = Courses(name=course, pre_reqs=p, co_reqs=co)
         c.save()
     return c
@@ -117,31 +117,3 @@ def generate_output(program, courses_taken):
         print(max_depth)
     
     print(table)
-
-
-<<<<<<< HEAD
-    list_semesters = []
-    for n in range(semesters):
-        list_semesters[n] = []
-    
-    avecoursespersem = round(len(req) / semesters)
-
-    while (req_left != []):
-        for i in list_semesters:
-            for j in req_left:
-                if (validate(j) and len(list_semesters[i]) <= avecoursespersem):
-                    list_semesters[i].append(j)
-                    req_left.remove(j)
-        
-
-course_list_parser("COMP 202, MATH 310")
-
-col1 = ""
-col2 = ""
-col3 = ""
-col4 = ""
-col5 = ""
-col6 = ""
-=======
-# generate_output("a", ["MATH 141", "MATH 133"])
->>>>>>> 760e9c89bc5a9975e3908ab88a21b60e3dc52f2f
