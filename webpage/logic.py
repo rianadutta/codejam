@@ -10,6 +10,17 @@ from webscrape import webscrape
 
 from treelib import Node, Tree
 
+# initialize
+mchR = ["COMP 206", "COMP 250", "COMP 252", "COMP 273", "COMP 302", "COMP 310", 
+"COMP 330", "COMP 362", "MATH 222", "MATH 235", "MATH 251", "MATH 255", "MATH 350"]
+mchP = ["COMP 202", "COMP 204", "COMP 208", "MATH 242", "MATH 254", "MATH 248", 
+"MATH 358", "MATH 356", "MATH 357", "MATH 387", "MATH 454", "MATH 455", "MATH 456", "MATH 457"]
+
+math_comp_hon = Program(name="Honours Math & Computer Science")
+math_comp_hon.required_courses = mchR
+math_comp_hon.complementary_courses = mchP
+math_comp_hon.save()
+
 def upper(thing):
     return thing.upper()
 
