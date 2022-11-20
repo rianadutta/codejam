@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Courses
+from .models import Courses, Program
 
 class ProgramForm(ModelForm):
     class Meta:
