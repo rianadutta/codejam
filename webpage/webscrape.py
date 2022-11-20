@@ -22,11 +22,12 @@ def webscrape(course):
 
     listofprereqs = []
     listofcoreqs = []
+    restrictions = []
     page = urlopen(url)
     html_bytes = page.read()
     html = html_bytes.decode("utf-8")
-    pattern = '<li><p>Prerequisite.*?/p>'
-    match_results = re.search(pattern, html)
+    pattern1 = '<li><p>Prerequisite.*?/p>'
+    match_results = re.search(pattern1, html)
     if match_results is not None:
         title = match_results.group()
         length = len(title)
@@ -35,8 +36,8 @@ def webscrape(course):
             title = title[0].split("and")
         for j in range(len(title)):
             list = []
-            pattern1 = "courses/.*?/a>"
-            prereqs = re.findall(pattern1, title[j])
+            pattern = "courses/.*?/a>"
+            prereqs = re.findall(pattern, title[j])
             for i in prereqs:
                 print(i)
                 i = i.split('>')[1] 
@@ -50,17 +51,29 @@ def webscrape(course):
     match_results1 = re.search(pattern2,html)
     if match_results1 is not None:
         title = match_results1.group()
-        pattern1 = "courses/.*?/a>"
-        coreqs = re.findall(pattern1, title)
+        pattern = "courses/.*?/a>"
+        coreqs = re.findall(pattern, title)
         for i in coreqs:
             i = i.split('>')[1] 
             i = i.split('<')[0]
             listofcoreqs.append(i)
         print("Coreqs: " )
         print(listofcoreqs)
-    return listofprereqs, listofcoreqs
+    pattern3 = '<li><p>Restriction.*?/p>'
+    match_results2 = re.search(pattern3,html)
+    if match_results2 is not None:
+        title = match_results2.group()
+        pattern = "courses/.*?/a>"
+        rest = re.findall(pattern, title)
+        for i in rest:
+            i = i.split('>')[1] 
+            i = i.split('<')[0]
+            restrictions.append(i)
+        print("Restrictions: " )
+        print(restrictions)
+    return listofprereqs, listofcoreqs, restrictions
 
-#webscrape("comp 252")
+webscrape("comp 252")
 
 def programscrape(program):
     page = urlopen(program)
