@@ -5,7 +5,6 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web_project.settings")
 import django
 django.setup()
 
-# your imports, e.g. Django models
 from hello.models import Program, Courses
 from webscrape import webscrape
 
@@ -14,9 +13,13 @@ from treelib import Node, Tree
 def upper(thing):
     return thing.upper()
 
+def main(program, courses):
+    list_courses = course_list_parser(courses)
+
+
 def course_list_parser(courses):
     list_courses = courses.split(",")
-    print(list_courses)
+    return list_courses
 
 
 def retrieve_course(course):
@@ -25,26 +28,14 @@ def retrieve_course(course):
     except Courses.DoesNotExist:
         pr, co, re = webscrape(course)
         c = Courses(name=course, pre_reqs=pr)
-        #c = Courses(name=course, pre_reqs=p, co_reqs=co)
+        c.pre_reqs = pr
+        c.restrictions = re
         c.save()
     return c
 
-#c = retrieve_course("COMP 250")
-#print(c.name)
-
-def validate(course, courses_taken):
-    return False
-
-def create_all_entries(list):
-    """ Takes a list and web scrapes course entries for each list element
-    if it did not already exist """
-    for c in list:
-        c2 = retrieve_course(c)
-        if c2 == -1:
-            webscrape(c)
-            c2 = retrieve_course(c)
-        c = c2
-    return list
+# l = ["MATH 141"]
+#c = retrieve_course(l[0])
+#print(c.pre_reqs)
 
 def get_prereqs(list): # this is a placeholder function
     pre_req = []
@@ -55,15 +46,20 @@ def get_prereqs(list): # this is a placeholder function
 
 tree_list = []
 
-def create_tree(tree_ptr, count, req, pre_req):
-    for i in range(len(pre_req)):
+def create_tree(tree_ptr, count, req, pre_req, req_left):
+    global tree_list
+
+    for i in range(len(req_left)):
+        val = pre_req[req_left[i]]
         node = tree_list[count].get_node(tree_ptr)
-        if node.data in pre_req[i]:
-            tree_list[count].create_node(tag=req[i], identifier=req[i], data=req[i], parent=tree_ptr)
+
+        for j in val:
+            if node.data in j:
+                tree_list[count].create_node(tag=req[i], identifier=req[i], data=req[i], parent=tree_ptr)
 
     l = tree_list[count].children(tree_ptr)
     for k in l:
-        create_tree(k.identifier, count, req, pre_req)
+        create_tree(k.identifier, count, req, pre_req, req_left)
 
 
 def generate_output(program, courses_taken):
@@ -78,18 +74,37 @@ def generate_output(program, courses_taken):
     for i in req:
         if i not in courses_taken:
             req_left.append(i)
+    
+    db_courses = []
+    for i in range(len(req_left)):
+        db_courses.append(retrieve_course(req_left[i]))
+    
+    pre_req = {}
+    for i in db_courses:
+        temp = []
+        for j in i.pre_reqs:
+            j = j.split(",")
+            temp.append(j)
 
-    # create_all_entries(courses_taken)
-    # create_all_entries(req_left)
+        pre_req[i.name] = temp
+    
+    co_req = {}
+    for i in db_courses:
+        co_req[i.name] = i.co_reqs
+    
+    restrictions = {}
+    for i in db_courses:
+        restrictions[i.name] = i.co_reqs
 
-    pre_req = get_prereqs(req_left)
+
+    # pre_req = get_prereqs(req_left)
 
     for i in range(len(courses_taken)):
         tree_list.append(Tree())
         tree_list[i].create_node(tag=courses_taken[i], identifier=courses_taken[i], data=courses_taken[i])
 
     for i in range(len(tree_list)):
-        create_tree(tree_list[i].root ,i, req_left, pre_req)
+        create_tree(tree_list[i].root, i, req_left, pre_req, req_left)
         tree_list[i].show()
     
     max_tree_depth = 0
@@ -116,3 +131,5 @@ def generate_output(program, courses_taken):
         print(max_depth)
     
     print(table)
+
+# generate_output("a", ["MATH 133", "MATH 141"])
