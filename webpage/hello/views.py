@@ -32,12 +32,15 @@ def hello(request):
         if form.is_valid():
             program = form.data['program']
             semester = form.data['semester']
-            courses = form.data['courses'] 
-            col1 = ["ECSE 200", "ECSE 202", "ECSE 222"]
-            col2 = form.data['courses'] 
-            col3 = form.data['courses'] 
-            col4 = form.data['courses'] 
-            col5 = form.data['courses'] 
+            courses = form.data['courses']
+
+            table = logic.generate_output(program, courses)
+
+            col1 = table[0]
+            col2 = table[1]
+            col3 = table[2]
+            col4 = table[3]
+            col5 = table[4]
 
     else:
         form = UserForm()

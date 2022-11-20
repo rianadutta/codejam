@@ -11,21 +11,24 @@ from webscrape import webscrape
 from treelib import Node, Tree
 
 # initialize
+Courses.objects.all().delete()
+Program.objects.all().delete()
+
+#"MATH 350"
+
 mchR = ["COMP 206", "COMP 250", "COMP 252", "COMP 273", "COMP 302", "COMP 310", 
-"COMP 330", "COMP 362", "MATH 222", "MATH 235", "MATH 251", "MATH 255", "MATH 350"]
+"COMP 330", "COMP 362", "MATH 222", "MATH 235", "MATH 251", "MATH 255"]
 mchP = ["COMP 202", "COMP 204", "COMP 208", "MATH 242", "MATH 254", "MATH 248", 
 "MATH 358", "MATH 356", "MATH 357", "MATH 387", "MATH 454", "MATH 455", "MATH 456", "MATH 457"]
 
-math_comp_hon = Program(name="Honours Math & Computer Science")
+math_comp_hon = Program.objects.create(name="math_comp_hon")
+#math_comp_hon = Program(name="math_comp_hon")
 math_comp_hon.required_courses = mchR
 math_comp_hon.complementary_courses = mchP
 math_comp_hon.save()
 
 def upper(thing):
     return thing.upper()
-
-def main(program, courses):
-    list_courses = course_list_parser(courses)
 
 
 def course_list_parser(courses):
@@ -48,13 +51,6 @@ def retrieve_course(course):
 #c = retrieve_course(l[0])
 #print(c.pre_reqs)
 
-def get_prereqs(list): # this is a placeholder function
-    pre_req = []
-    for i in range(len(list)):
-        co = webscrape(list[i])
-        pre_req.append(co)
-    return pre_req
-
 tree_list = []
 
 def create_tree(tree_ptr, count, req, pre_req, req_left):
@@ -75,11 +71,15 @@ def create_tree(tree_ptr, count, req, pre_req, req_left):
 
 def generate_output(program, courses_taken):
     global tree_list
-    # p = Program.objects.filter(name=program)
-    # req = p.required_courses # 1-d array
+    # p = Program.objects.get(name=program)
+    
     # comp = p.complementary_courses # 2-d array
 
-    req = ["MATH 222", "MATH 235", "MATH 242", "MATH 255"]
+    req = math_comp_hon.required_courses
+
+    courses_taken = course_list_parser(courses_taken)
+
+    # req = ["MATH 222", "MATH 235", "MATH 242", "MATH 255"]
     req_left = []
 
     for i in req:
@@ -141,6 +141,21 @@ def generate_output(program, courses_taken):
         table[max_depth].append(i)
         print(max_depth)
     
-    print(table)
+    for i in range(5 - len(table)):
+        table.append([])
+    return table
 
-# generate_output("a", ["MATH 133", "MATH 141"])
+generate_output("math_comp_hon", "MATH 133, MATH 141")
+
+
+def toy():
+    p = Program(name="foo")
+    p.required_courses = ["a", "b"]
+    p.save()
+
+    q = Program.objects.get(name="foo")
+
+    for i in q.required_courses:
+        print(i)
+
+# toy()
